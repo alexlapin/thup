@@ -26,13 +26,22 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
+gem 'csv-importer'
+gem 'rack-cors'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
 group :development, :test do
+  # Use RSpec for specs
+  gem 'rspec-rails', '>= 3.5.0'
+  # Use Factory Girl for generating random test data
+  gem 'factory_girl_rails'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platform: :mri
+  gem 'pry'
+  gem 'pry-remote'
+  gem 'pry-byebug'
+  gem 'annotate'
 end
 
 group :development do
@@ -42,6 +51,16 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'better_errors'
+  gem 'binding_of_caller'
+end
+
+group :test do
+  gem 'rspec-api-matchers'
+  gem 'resque_spec'
+  gem 'shoulda'
+  gem 'guard'
+  gem 'guard-bundler'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
