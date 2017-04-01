@@ -1,13 +1,12 @@
 require './lib/importers/user_importer'
 
 class UserImportService
-  UNKNOWN_ERROR = 'Unknown error'
-
   attr_reader :errors, :meta
 
   def initialize(content)
-    @errors = content ? [] : ['File should be provided']
-    process_csv(content)
+    @errors = content.blank? || content.size.zero? ? ['File should be provided'] : []
+    process_csv(content) if @errors.blank?
+    @meta ||= { status: :unprocessable_entity, message: @errors }
   end
 
   private

@@ -52,23 +52,23 @@ RSpec.describe User, type: :model do
         User.where(id: params[:id]).first
       }
 
-      it 's id is correct' do
+      it 'id is correct' do
         expect(user.id).to eq(params[:id])
       end
 
-      it 's user_id is correct' do
+      it 'user_id is correct' do
         expect(user.user_id.to_s).to eq(params[:user_id])
       end
 
-      it 's employee_number is correct' do
+      it 'employee_number is correct' do
         expect(user.employee_number).to eq(params[:employee_number])
       end
 
-      it 's first_name is correct' do
+      it 'first_name is correct' do
         expect(user.first_name).to eq(params[:first_name])
       end
 
-      it 's last_name is correct' do
+      it 'last_name is correct' do
         expect(user.last_name).to eq(params[:last_name])
       end
     end

@@ -1,4 +1,4 @@
-require 'stringio'
+#require 'stringio'
 
 class UploadController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:upload_file]
