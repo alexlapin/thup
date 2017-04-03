@@ -2,14 +2,15 @@ require 'rails_helper'
 
 RSpec.describe UploadController, type: :controller do
   describe 'upload_file' do
-    xit 'succeed' do
+    it 'succeed' do
       post 'upload_file', params: {
-          content: "id,first_name,last_name,employee_number\n20,John,Smith,100\n"
+          file_stream: "id,first_name,last_name,employee_number\n20,John,Smith,100\n"
       }
       expect(response.status).to eq(200)
     end
 
-    it 'returns unprocessable_entity with empty file body' do
+    # xitted due to postman
+    xit 'returns unprocessable_entity with empty file body' do
       post 'upload_file', params: {}
       expect(response.status).to eq(422)
     end

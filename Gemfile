@@ -30,6 +30,9 @@ gem 'csv-importer'
 gem 'rack-cors'
 gem 'active_model_serializers'
 
+# Twitter bootstrap
+gem 'bootstrap-sass'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

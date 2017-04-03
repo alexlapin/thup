@@ -9,6 +9,7 @@ RSpec.describe UserUploadService do
       let! (:uus) { UserUploadService.new(csv_content) }
       let! (:uus_io) { UserUploadService.new( StringIO.new(csv_content)) }
       let! (:uus_file) {
+        # Let's consider CSV isn't huge size and we can store it in a memory
         File.open('tempfile.csv', 'wb') do |file|
           file.write(csv_content)
         end

@@ -1,10 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe ImportController, type: :controller do
+RSpec.describe Api::ImportController, type: :controller do
   describe 'import_csv' do
+    # xitted due to postman
     xit 'succeed' do
       post 'import_csv', params: {
-          content: "id,first_name,last_name,employee_number\n1,John,Smith,100\n"
+          file_stream: "id,first_name,last_name,employee_number\n1,John,Smith,100\n"
       }
       expect(response.status).to eq(200)
     end

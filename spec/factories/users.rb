@@ -13,10 +13,10 @@
 
 FactoryGirl.define do
   factory :user do
-    sequence(:id) { |n| rand(10000) + n }
+    sequence(:id) { |n| rand(5) + n }
     sequence(:user_id) { |n| "uid#{n}" }
     first_name 'John'
     last_name 'Smith'
-    sequence(:employee_number) { |n| rand(10000) + n }
+    sequence(:employee_number) { |n| rand(1000) + n }
   end
 end

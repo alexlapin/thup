@@ -1,0 +1,107 @@
+Coding Exercise: Rails App to process an uploaded CSV file in to a table
+
+- Use mysql to store data
+
+- Create necessary migrations and models
+
+- Controller to serve a single page javascript app - preferably React/Flux
+  + Allows a user to upload a CSV file with headers (id, first_name, last_name, employee_number)
+  + Shows the entity returned and status of the upload (successful/failure with failure message)
+
+- Controller to expose an API
+  - Accept the CSV file
+    + Create a CSV file header model (total lines, processed lines, error lines)
+    + Validate the file
+    + Create necessary employee records
+    + returns CSV file header and imported employee records and errored records
+
+- Constraints:
+  Cannot use paperclip or carrierwave
+
+
+
+0. General idea description:
+As I understand the main idea of application is to provide/perform some operation:
+- upload a CSV file <with file verification>;
+- save data from CSV file to DB (MySQL) <using some rules>;
+- provide upload/process status on FE.
+Am I right? YES
+
+1. Platform reqs:
+1.1. Do we have any restrictions of using:
+ - OS/platform (Win/Unix/Mac)? Not Really - MAC/Unix
+ - Rails version?  No
+ - ruby version?  No
+ - rails testing tool?  Yes - spec
+
+1.2. Can we use external gems (for CSV parsing/reading)?   Yes
+
+2. Application (structure) reqs:
+2.1. Should we develop a FE part with UI or just provide a suitable API for FE?   Just a suitable UI to get the job done. Preferably in ReactJS
+2.2. Server API:
+2.2.1. Do we have any restrictions on server architecture style? (If no, I suggest to develop it in a RESTful way). REST is fine
+2.2.2. Do we have any restrictions of data transfer format? (If no, I suggest to use JSON). JSON is fine
+2.3. `Shows the entity returned` - what format should it be? JSON is fine
+Is it possible that several CSV files are uploaded simultaneously (in parallel)?  If yes, should we take care of the same user's records order in DB, synchronization (with transaction mechanism)? No
+2.4. Should we use jobs for CSV parsing/adding to DB or it be without jobs? I will leave it up to you. For this exercise, without jobs is fine
+
+3. Data reqs:
+3.1. Should we match an `id` field from CSV as an internal `id` of MySQL user's table? If you want, use employee number
+3.1.1. If not, is it necessary `id` from CSV be a unique in DB?  use employee number
+`returns CSV file header and imported employee records and errored records` - should we return a new CSV output file with successfully added employees and errored data separated?
+Could you provide please an example of input (valid and invalid) / output CSV file?   id, first_name, last_name, employee_number
+3.2. What does `employee_number` field mean? Do we have any business logic linked this field? Should it be unique in DB? consider it as unique id from the source
+
+4. Verification/Consistency reqs:
+4.1. Is it possible that input CSV file contains records with identical id (2 or more records where id is the same)? If yes, should the consider such file as an invalid (with broken consistency - see 4.4.)? I will leave this up to you to interpret
+4.2. If we already have some data in DB, should we clear the data while new CSV file is uploading/parsing/adding? Use upsert
+4.2.1. If not, should we add new records (based on id) only? employee_number
+4.2.2. Should we update already existed data or just skip record if its id has already stored in DB)? Use upsert
+4.3. 'Create necessary employee records' - does it mean to add in DB only new users (with new id) or update/skip already existed? Use upsert
+4.4. What criteria should we use to verify input CSV file? What exactly should we verify (csv-format, header presence, all/required header's presence and so on). Should we consider CSV with `id` duplicated as an invalid? I will leave this up to you to interpret
+4.5. `Create a CSV file header model (total lines, processed lines, error lines)`. What is CSV file header? What's a criteria of error lines (for ex., duplicated fields: id/employee_number/, fail of SQL DML instruction (such as INSERT/UPDATE, etc.)? Consider it as a batch header, criteria for errors is up to you to interpret
+
+It'll be great if you can clarify them. Some reqs will be linked with others or if you clarify a one, next could be clarified by default.
+
+    0. General idea description:
+    As I understand the main idea of application is to provide/perform some operation:
+    - upload a CSV file <with file verification>;
+    - save data from CSV file to DB (MySQL) <using some rules>;
+    - provide upload/process status on FE.
+    Am I right?
+
+    1. Platform reqs:
+    1.1. Do we have any restrictions of using:
+    - OS/platform (Win/Unix/Mac)?
+    - Rails version?
+    - ruby version?
+    - rails testing tool?
+    1.2. Can we use external gems (for CSV parsing/reading)?
+
+    2. Application (structure) reqs:
+    2.1. Should we develop a FE part with UI or just provide a suitable API for FE?
+    2.2. Server API:
+    2.2.1. Do we have any restrictions on server architecture style? (If no, I suggest to develop it in a RESTful way).
+    2.2.2. Do we have any restrictions of data transfer format? (If no, I suggest to use JSON).
+    2.3. `Shows the entity returned` - what format should it be?
+    Is it possible that several CSV files are uploaded simultaneously (in parallel)?  If yes, should we take care of the same user's records order in DB, synchronization (with transaction mechanism)?
+    2.4. Should we use jobs for CSV parsing/adding to DB or it be without jobs?
+
+    3. Data reqs:
+    3.1. Should we match an `id` field from CSV as an internal `id` of MySQL user's table?
+    3.1.1. If not, is it necessary `id` from CSV be a unique in DB?
+    `returns CSV file header and imported employee records and errored records` - should we return a new CSV output file with successfully added employees and errored data separated?
+    Could you provide please an example of input (valid and invalid) / output CSV file?
+    3.2. What does `employee_number` field mean? Do we have any business logic linked this field? Should it be unique in DB?
+
+    4. Verification/Consistency reqs:
+    4.1. Is it possible that input CSV file contains records with identical id (2 or more records where id is the same)? If yes, should the consider such file as an invalid (with broken consistency - see 4.4.)?
+    4.2. If we already have some data in DB, should we clear the data while new CSV file is uploading/parsing/adding?
+    4.2.1. If not, should we add new records (based on id) only?
+    4.2.2. Should we update already existed data or just skip record if its id has already stored in DB)?
+    4.3. 'Create necessary employee records' - does it mean to add in DB only new users (with new id) or update/skip already existed?
+    4.4. What criteria should we use to verify input CSV file? What exactly should we verify (csv-format, header presence, all/required header's presence and so on). Should we consider CSV with `id` duplicated as an invalid?
+    4.5. `Create a CSV file header model (total lines, processed lines, error lines)`. What is CSV file header? What's a criteria of error lines (for ex., duplicated fields: id/employee_number/, fail of SQL DML instruction (such as INSERT/UPDATE, etc.)?
+
+    5. Others:
+    TBD.
