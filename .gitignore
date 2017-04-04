@@ -19,3 +19,4 @@
 # Custom
 .idea/**
 /public/uploads/**
+/public/assets/**
